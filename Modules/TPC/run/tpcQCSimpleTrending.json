@@ -23,7 +23,7 @@
       }
     },
     "postprocessing": {
-      "ExampleTrendingPID": {
+      "TrendingPID": {
         "active": "true",
         "className": "o2::quality_control::postprocessing::TrendingTask",
         "moduleName": "QualityControl",

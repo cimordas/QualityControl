@@ -1,0 +1,103 @@
+{
+  "qc": {
+    "config": {
+      "database": {
+        "implementation": "CCDB",
+        "host": "localhost:8080",
+        "username": "not_applicable",
+        "password": "not_applicable",
+        "name": "not_applicable"
+      },
+      "Activity": {
+        "number": "42",
+        "type": "2"
+      },
+      "monitoring": {
+        "url": "infologger:///debug?qc"
+      },
+      "consul": {
+        "url": "http://consul-test.cern.ch:8500"
+      },
+      "conditionDB": {
+        "url": "ccdb-test.cern.ch:8080"
+      }
+    },
+    "postprocessing": {
+      "TracksTrending": {
+        "active": "true",
+        "className": "o2::quality_control::postprocessing::TrendingTask",
+        "moduleName": "QualityControl",
+        "detectorName": "TPC",
+        "dataSources": [
+          {
+            "type": "repository",
+            "path": "qc/TPC/Tracks",
+            "names": [ "hNClustersBeforeCuts", "hNClustersAfterCuts", "hEta", "hPhiAside", "hPhiCside" ],
+            "reductorName": "o2::quality_control_modules::common::TH1Reductor",
+            "moduleName": "QcCommon"
+          },
+          {
+            "type": "repository-quality",
+            "path": "qc/checks/TPC",
+            "names": [ "TrackClusterCheck" ],
+            "reductorName": "o2::quality_control_modules::common::QualityReductor",
+            "moduleName": "QcCommon"
+          }
+        ],
+        "plots": [
+          {
+            "name": "TPCncl_StatMean_Trend_BeforeCuts",
+            "title": "Mean number of TPC clusters vs time (Before the cuts)",
+            "varexp": "hNClustersBeforeCuts.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "TPCncl_StatMean_Trend_AfterCuts",
+            "title": "Mean number of TPC clusters vs time (After the cuts)",
+            "varexp": "hNClustersAfterCuts.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "Eta_StatMean_Trend",
+            "title": "Time trend of the mean of the pseudorapidity",
+            "varexp": "hEta.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "Phi_SideA_StatMean_Trend",
+            "title": "Time trend of the mean of the azimuthal angles, A side",
+            "varexp": "hPhiAside.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "Phi_SideC_StatMean_Trend",
+            "title": "Time trend of the mean of the azimuthal angles, C side",
+            "varexp": "hPhiCside.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "TrackClusterCheck_quality",
+            "title": "Trend of the quality of TrackClusterCheck",
+            "varexp": "TrackClusterCheck.name:time",
+            "selection": "",
+            "option": "*"
+          }
+        ],
+        "initTrigger": [
+          "userorcontrol"
+        ],
+        "updateTrigger": [
+          "10 seconds"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      }
+    }
+  }
+}
