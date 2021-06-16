@@ -38,6 +38,7 @@ Clusters::Clusters() : TaskInterface()
 
 void Clusters::initialize(o2::framework::InitContext& /*ctx*/)
 {
+  printf("LOKI\n");
   QcInfoLogger::GetInstance() << "initialize TPC Clusters QC task" << AliceO2::InfoLogger::InfoLogger::endm;
 
   addAndPublish(getObjectsManager(), mNClustersCanvasVec, { "c_Sides_N_Clusters", "c_ROCs_N_Clusters_1D", "c_ROCs_N_Clusters_2D" });
