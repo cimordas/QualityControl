@@ -355,7 +355,7 @@
      },
      "TestTPCTH1Slicer": {
         "active": "true",
-        "className": "o2::quality_control::postprocessing::TrendingTaskTPC",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
         "moduleName": "QcTPC",
         "detectorName": "TPC",
         "dataSources": [
@@ -423,7 +423,7 @@
       },
      "TestTrendingCluster": {
         "active": "true",
-        "className": "o2::quality_control::postprocessing::TrendingTaskTPC",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
         "moduleName": "QcTPC",
         "detectorName": "TPC",
         "dataSources": [

@@ -44,6 +44,7 @@ add_root_dictionary(O2QcTPC
                             include/TPC/RawDigits.h
                             include/TPC/TrendingTaskTPC.h
                             include/TPC/TrendingTaskConfigTPC.h
+                            include/TPC/ReductorTPC.h
                             include/TPC/TH1ReductorTPC.h
                             include/TPC/TH2ReductorTPC.h
                     LINKDEF include/TPC/LinkDef.h

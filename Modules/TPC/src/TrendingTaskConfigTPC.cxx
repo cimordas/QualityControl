@@ -21,7 +21,7 @@
 #include <typeinfo> 
 #include <vector>
 
-namespace o2::quality_control::postprocessing
+namespace o2::quality_control_modules::tpc
 {
 
 TrendingTaskConfigTPC::TrendingTaskConfigTPC(std::string name, const boost::property_tree::ptree& config)
@@ -77,4 +77,4 @@ TrendingTaskConfigTPC::TrendingTaskConfigTPC(std::string name, const boost::prop
   }
 }
 
-} // namespace o2::quality_control::postprocessing
+} // namespace o2::quality_control_modules::tpc

@@ -22,13 +22,13 @@
 #include <string>
 #include "QualityControl/PostProcessingConfig.h"
 
-namespace o2::quality_control::postprocessing
+namespace o2::quality_control_modules::tpc
 {
 
 /// \brief  TrendingTask configuration structure.
 ///
 /// Configuration structure for the trending objects: the data sources to trend and the plots to produce and publish.
-struct TrendingTaskConfigTPC : PostProcessingConfig {
+struct TrendingTaskConfigTPC : public quality_control::postprocessing::PostProcessingConfig {
   /// \brief Constructors.
   TrendingTaskConfigTPC() = default;
   TrendingTaskConfigTPC(std::string name, const boost::property_tree::ptree& config);
@@ -57,6 +57,6 @@ struct TrendingTaskConfigTPC : PostProcessingConfig {
   std::vector<DataSource> dataSources;
 };
 
-} // namespace o2::quality_control::postprocessing
+} // namespace o2::quality_control_modules::tpc
 
 #endif //QUALITYCONTROL_TRENDINGTASKCONFIGTPC_H

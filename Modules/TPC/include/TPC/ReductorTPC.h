@@ -20,7 +20,7 @@
 #include <TObject.h>
 #include <vector> 
 
-namespace o2::quality_control::postprocessing
+namespace o2::quality_control_modules::tpc
 {
 
 /// \brief An interface for storing data derived from QC objects into a TTree
@@ -44,6 +44,6 @@ class ReductorTPC
 
 };
 
-} // namespace o2::quality_control::postprocessing
+} // namespace o2::quality_control_modules::tpc
 
 #endif //QUALITYCONTROL_REDUCTORTPC_H

@@ -32,7 +32,7 @@ namespace o2::quality_control::repository
 class DatabaseInterface;
 } // namespace o2::quality_control::repository
 
-namespace o2::quality_control::postprocessing
+namespace o2::quality_control_modules::tpc
 {
 
 /// \brief  A post-processing task which trends values, stores them in a TTree and produces plots.
@@ -41,7 +41,7 @@ namespace o2::quality_control::postprocessing
 /// One can generate plots out the TTree - the class exposes the TTree::Draw interface to the user. The TTree and plots are stored in the QCDB. The class is configured with configuration files, see Framework/postprocessing.json as an example.
 ///
 /// \author based on work of Piotr Konopka
-class TrendingTaskTPC : public PostProcessingInterface
+class TrendingTaskTPC : public quality_control::postprocessing::PostProcessingInterface
 {
  public:
   /// \brief Constructor.
@@ -51,9 +51,9 @@ class TrendingTaskTPC : public PostProcessingInterface
 
   /// \brief Definitions of the methods used for the trending.
   void configure(std::string name, const boost::property_tree::ptree& config) override;
-  void initialize(Trigger, framework::ServiceRegistry&) override;
-  void update(Trigger, framework::ServiceRegistry&) override;
-  void finalize(Trigger, framework::ServiceRegistry&) override;
+  void initialize(quality_control::postprocessing::Trigger, framework::ServiceRegistry&) override;
+  void update(quality_control::postprocessing::Trigger, framework::ServiceRegistry&) override;
+  void finalize(quality_control::postprocessing::Trigger, framework::ServiceRegistry&) override;
 
  private:
   struct MetaData {
@@ -61,7 +61,7 @@ class TrendingTaskTPC : public PostProcessingInterface
   };
 
   // Method to access the histograms to trend and publish their outputs.
-  void trendValues(uint64_t timestamp, repository::DatabaseInterface&);
+  void trendValues(uint64_t timestamp, o2::quality_control::repository::DatabaseInterface&);
   void generatePlots();
   void drawCanvas(TCanvas *thisCanvas, std::string var, std::string sel, std::string opt, std::string err, std::string name);
 
@@ -74,6 +74,6 @@ class TrendingTaskTPC : public PostProcessingInterface
   int mNumberPads;  ///< Number of pads in the output canvas.
 };
 
-} // namespace o2::quality_control::postprocessing
+} // namespace o2::quality_control_modules::tpc
 
 #endif //QUALITYCONTROL_TRENDINGTASKTPC_H

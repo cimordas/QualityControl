@@ -28,7 +28,7 @@ namespace o2::quality_control_modules::tpc
 ///
 /// A Reductor which obtains the most popular characteristics of TH1.
 /// It produces a branch in the format: "mean/D:stddev:entries".
-class TH1ReductorTPC : public quality_control::postprocessing::ReductorTPC
+class TH1ReductorTPC : public quality_control_modules::tpc::ReductorTPC
 {
  public:
   /// \brief Constructor.

@@ -35,6 +35,9 @@ using namespace o2::quality_control;
 using namespace o2::quality_control::core;
 using namespace o2::quality_control::postprocessing;
 
+namespace o2::quality_control_modules::tpc
+{
+
 void TrendingTaskTPC::configure(std::string name, const boost::property_tree::ptree& config)
 {
   mConfig = TrendingTaskConfigTPC(name, config);
@@ -225,3 +228,5 @@ void TrendingTaskTPC::drawCanvas(TCanvas *thisCanvas, std::string var, std::stri
     } // if (!err.empty())
   } // for (int p = 0; p < (mAxisSize*mInnerAxisSize); p++)
 }
+
+} // namespace o2::quality_control_modules::tpc

@@ -28,7 +28,7 @@ namespace o2::quality_control_modules::tpc
 ///
 /// A Reductor which obtains the most popular characteristics of TH2.
 /// It produces a branch in the format: "sumw/D:sumw2:sumwx:sumwx2:sumwy:sumwy2:sumwxy:entries"
-class TH2ReductorTPC : public quality_control::postprocessing::ReductorTPC
+class TH2ReductorTPC : public quality_control_modules::tpc::ReductorTPC
 {
  public:
   /// \brief Constructor.
