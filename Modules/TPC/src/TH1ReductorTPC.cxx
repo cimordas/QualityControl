@@ -10,15 +10,17 @@
 
 ///
 /// \file   TH1Reductor.cxx
-/// \author Piotr Konopka
+/// \author Marcel Lesch
+/// \author Cindy Mordasini
+/// \author Based on the work from Piotr Konopka
 ///
 
 #include <TH1.h>
-#include <TCanvas.h>  // LOKI
-#include <TList.h>  // LOKI
-#include "TPC/TH1ReductorTPC.h"
-#include "TAxis.h"
 #include <vector>
+#include <TCanvas.h>
+#include <TList.h>
+#include <TAxis.h>
+#include "TPC/TH1ReductorTPC.h"
 
 namespace o2::quality_control_modules::tpc
 {
@@ -30,56 +32,53 @@ void* TH1ReductorTPC::getBranchAddress()
 
 const char* TH1ReductorTPC::getBranchLeafList()
 {
-  return Form("mean[%i]/D:stddev[%i]:entries[%i]", NMAXSLICES, NMAXSLICES, NMAXSLICES); //"&mean:&stddev:&entries";
+  return Form("mean[%i]/D:stddev[%i]:entries[%i]", NMAXSLICES, NMAXSLICES, NMAXSLICES);
 }
 
-void TH1ReductorTPC::update(TObject* obj,std::vector<std::vector<float>> &axis, bool isCanvas)
+void TH1ReductorTPC::update(TObject* obj, std::vector<std::vector<float>> &axis, bool isCanvas)
 {
-  TList *padList = nullptr;   // LOKI: List of pads in case of TCanvas.
-  Int_t nPads = 1; // LOKI: Number of pads in obj ("1" for TH1, > 1 for TCanvas)
-  TH1 *histo = nullptr; // LOKI
+  TList *padList = nullptr;   // List of TPads for input TCanvas.
+  int nPads = 1;  // Number of pads in obj (Set to 1 for TH1).
+  TH1 *histo = nullptr;   // General pointer to the histogram to trend. Common for input canvas and slicer.
+  int innerAxisSize = (int)axis[0].size();  // Dimension of the inner axisDivision. Set to 1 if no slicing or if input canvas.
 
-  if (isCanvas) { // LOKI: Get the histograms from the canvas if isCanvas = true.
-    printf("We have a canvas.\n");
-
-    auto canvas = dynamic_cast<TCanvas*>(obj);  // LOKI
-    padList = dynamic_cast<TList*>(canvas->GetListOfPrimitives()); // LOKI. Get the list of TPads
+  // Get the list of pads/histograms if an input canvas is passed.
+  if (isCanvas) {
+    auto canvas = dynamic_cast<TCanvas*>(obj);
+    padList = dynamic_cast<TList*>(canvas->GetListOfPrimitives());
     nPads = padList->GetEntries();
+    innerAxisSize = 1;  // Enforce the absence of slicing.
   }
-  printf("Number of pads: %d\n", nPads);
 
-  for (Int_t iPad = 0; iPad < nPads; iPad++){
+  // Get the trending quantities for each slice/histogram.
+  for (int iPad = 0; iPad < nPads; iPad++) {
     if (isCanvas) {
       auto pad = dynamic_cast<TPad*>(padList->At(iPad));
       histo = dynamic_cast<TH1*>(pad->GetListOfPrimitives()->At(0));
-    } else {  // LOKI: we don't receive an initial canvas but directly the TH1.
-    histo = dynamic_cast<TH1*>(obj);
+    } else {  // The passed "obj" is directly an histogram.
+      histo = dynamic_cast<TH1*>(obj);
     }
 
-    if( 1 == (int)axis.size()) 
-    {
-
-    // todo: use GetStats() instead?
-    //auto histo = dynamic_cast<TH1*>(obj);
+    // Get the trending quantities depending on the config.
     if (histo) {
-      for(int i=0; i<(int)axis.size(); i++)
-  	  {
-    		for(int j=0; j<(int)axis[i].size()-1; j++)
-    		{	  
-    		  histo->GetXaxis()->SetRangeUser(axis[i][j],axis[i][j+1]);
-    		  mStats.entries[j] = histo->GetEntries();
-    		  mStats.stddev[j] = histo->GetStdDev();
-    		  mStats.mean[j] = histo->GetMean();
-
-    		  //printf("Mean from %f to %f: %f \n", axis[i][j],axis[i][j+1],mStats.mean[j]);
-          printf("Mean for pad %d: %f \n", iPad, mStats.mean[j]);
-
-    		}
-  	  }
-
-     } // if (histo)
-    } // if( 1 == (int)axis.size()) 
-
+      if (innerAxisSize == 1) {   // No slicing/input canvas.
+        mStats.entries[iPad] = histo->GetEntries();
+        mStats.stddev[iPad] = histo->GetStdDev();
+        mStats.mean[iPad] = histo->GetMean();
+ 
+      } else if ((int)axis.size() == 1) {
+        for(int i = 0; i < (int)axis.size(); i++) {
+          for(int j = 0; j < (int)axis[i].size()-1; j++) { 
+            histo->GetXaxis()->SetRangeUser(axis[i][j],axis[i][j+1]);
+            mStats.entries[j] = histo->GetEntries();
+            mStats.stddev[j] = histo->GetStdDev();
+            mStats.mean[j] = histo->GetMean();
+          }
+        }
+      } else {
+        printf("Configuration not supported yet.\n");
+      }
+    }   // if (histo).
   }
 }
 

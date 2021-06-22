@@ -42,7 +42,7 @@ class TH2ReductorTPC : public quality_control::postprocessing::ReductorTPC
   void update(TObject* obj, std::vector<std::vector<float>> &axis, bool isCanvas) override;
 
  private:
-  static constexpr int NMAXSLICES = 72;   ///< Maximum number of slices, or histograms for an input canvas. LOKI: Changed from 30.
+  static constexpr int NMAXSLICES = 72;   ///< Maximum number of slices, or histograms for an input canvas.
 
   struct {  ///< All quantities of TH2 for each x-slice/histogram.
     Double_t sumw[NMAXSLICES];

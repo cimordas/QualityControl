@@ -10,9 +10,9 @@
 
 ///
 /// \file    TrendingTaskTPC.h
-/// \author Marcel Lesch
-/// \author Cindy Mordasini
-/// \author Based on the work from Piotr Konopka
+/// \author  Marcel Lesch
+/// \author  Cindy Mordasini
+/// \author  Based on the work from Piotr Konopka
 ///
 
 #ifndef QUALITYCONTROL_TRENDINGTASKTPC_H
@@ -71,8 +71,7 @@ class TrendingTaskTPC : public PostProcessingInterface
   std::unique_ptr<TTree> mTrend;  ///< Trending values at a given time.
   std::map<std::string, TObject*> mPlots; ///<
   std::unordered_map<std::string, std::unique_ptr<ReductorTPC>> mReductors; ///< Reductors for all the sources in the post-processing json.
-  int mAxisSize;  ///< Dimension of the outer vector of axisDivision.
-  int mInnerAxisSize;  ///< Dimension of the inner vector of axisDivision.
+  int mNumberPads;  ///< Number of pads in the output canvas.
 };
 
 } // namespace o2::quality_control::postprocessing

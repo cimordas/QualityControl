@@ -27,7 +27,7 @@ namespace o2::quality_control_modules::tpc
 /// \brief A Reductor which obtains the most popular characteristics of TH1.
 ///
 /// A Reductor which obtains the most popular characteristics of TH1.
-/// It produces a branch in the format: "mean/D:stddev:entries"
+/// It produces a branch in the format: "mean/D:stddev:entries".
 class TH1ReductorTPC : public quality_control::postprocessing::ReductorTPC
 {
  public:
@@ -39,10 +39,10 @@ class TH1ReductorTPC : public quality_control::postprocessing::ReductorTPC
   /// \brief Definitions of the methods common to all reductors.
   void* getBranchAddress() override;
   const char* getBranchLeafList() override;
-  void update(TObject* obj, std::vector<std::vector<float>> &axis, bool isCanvas) override; 
+  void update(TObject* obj, std::vector<std::vector<float>> &axis, bool isCanvas) override;
 
  private:
-  static constexpr int NMAXSLICES = 72;   ///< Maximum number of slices, or histograms for an input canvas. LOKI: Changed from 30.
+  static constexpr int NMAXSLICES = 72;   ///< Maximum number of slices, or histograms for an input canvas.
 
   struct {
     Double_t mean[NMAXSLICES];  ///< Mean value for each slice/histogram.

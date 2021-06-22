@@ -9,10 +9,10 @@
 // or submit itself to any jurisdiction.
 
 ///
-/// \file   TrendingTaskConfigTPC.h
-/// \author Marcel Lesch
-/// \author Cindy Mordasini
-/// \author Based on the work from Piotr Konopka
+/// \file    TrendingTaskConfigTPC.h
+/// \author  Marcel Lesch
+/// \author  Cindy Mordasini
+/// \author  Based on the work from Piotr Konopka
 ///
 
 #ifndef QUALITYCONTROL_TRENDINGTASKCONFIGTPC_H
