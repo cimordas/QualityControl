@@ -10,8 +10,11 @@
 
 ///
 /// \file   TH1ReductorTPC.h
-/// \author Piotr Konopka
+/// \author Marcel Lesch
+/// \author Cindy Mordasini
+/// \author Based on the work from Piotr Konopka
 ///
+
 #ifndef QUALITYCONTROL_TH1REDUCTORTPC_H
 #define QUALITYCONTROL_TH1REDUCTORTPC_H
 
@@ -28,19 +31,23 @@ namespace o2::quality_control_modules::tpc
 class TH1ReductorTPC : public quality_control::postprocessing::ReductorTPC
 {
  public:
+  /// \brief Constructor.
   TH1ReductorTPC() = default;
+  /// \brief Destructor.
   ~TH1ReductorTPC() = default;
 
+  /// \brief Definitions of the methods common to all reductors.
   void* getBranchAddress() override;
   const char* getBranchLeafList() override;
-  void update(TObject* obj,std::vector<std::vector<float>> &axis, bool isCanvas) override; 
+  void update(TObject* obj, std::vector<std::vector<float>> &axis, bool isCanvas) override; 
 
-  private:
-  static constexpr int NMAXSLICES = 30;
+ private:
+  static constexpr int NMAXSLICES = 72;   ///< Maximum number of slices, or histograms for an input canvas. LOKI: Changed from 30.
+
   struct {
-    Double_t mean[NMAXSLICES];
-    Double_t stddev[NMAXSLICES];
-    Double_t entries[NMAXSLICES];
+    Double_t mean[NMAXSLICES];  ///< Mean value for each slice/histogram.
+    Double_t stddev[NMAXSLICES];  ///< Standard deviation for each slice/histogram.
+    Double_t entries[NMAXSLICES];   ///< Number of entries for each slice/histogram.
   } mStats ;
 };
 

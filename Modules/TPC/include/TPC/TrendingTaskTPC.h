@@ -10,7 +10,9 @@
 
 ///
 /// \file    TrendingTaskTPC.h
-/// \author  Based on the work of Piotr Konopka
+/// \author Marcel Lesch
+/// \author Cindy Mordasini
+/// \author Based on the work from Piotr Konopka
 ///
 
 #ifndef QUALITYCONTROL_TRENDINGTASKTPC_H
@@ -23,29 +25,31 @@
 #include <memory>
 #include <unordered_map>
 #include <TTree.h>
+#include <TCanvas.h>
 
 namespace o2::quality_control::repository
 {
 class DatabaseInterface;
-}
+} // namespace o2::quality_control::repository
 
 namespace o2::quality_control::postprocessing
 {
 
 /// \brief  A post-processing task which trends values, stores them in a TTree and produces plots.
 ///
-/// A post-processing task which trends objects inside QC database (QCDB). It extracts some values of one or multiple
-/// objects using the Reductor classes, then stores them inside a TTree. One can generate plots out the TTree - the
-/// class exposes the TTree::Draw interface to the user. The TTree and plots are stored in the QCDB. The class is
-/// configured with configuration files, see Framework/postprocessing.json as an example.
+/// A post-processing task which trends objects inside QC database (QCDB). It extracts some values of one or multiple objects using the Reductor classes, then stores them inside a TTree.
+/// One can generate plots out the TTree - the class exposes the TTree::Draw interface to the user. The TTree and plots are stored in the QCDB. The class is configured with configuration files, see Framework/postprocessing.json as an example.
 ///
 /// \author based on work of Piotr Konopka
 class TrendingTaskTPC : public PostProcessingInterface
 {
  public:
+  /// \brief Constructor.
   TrendingTaskTPC() = default;
+  /// \brief Destructor.
   ~TrendingTaskTPC() override = default;
 
+  /// \brief Definitions of the methods used for the trending.
   void configure(std::string name, const boost::property_tree::ptree& config) override;
   void initialize(Trigger, framework::ServiceRegistry&) override;
   void update(Trigger, framework::ServiceRegistry&) override;
@@ -56,15 +60,19 @@ class TrendingTaskTPC : public PostProcessingInterface
     Int_t runNumber = 0;
   };
 
+  // Method to access the histograms to trend and publish their outputs.
   void trendValues(uint64_t timestamp, repository::DatabaseInterface&);
   void generatePlots();
+  void drawCanvas(TCanvas *thisCanvas, std::string var, std::string sel, std::string opt, std::string err, std::string name);
 
-  TrendingTaskConfigTPC mConfig;
-  MetaData mMetaData;
-  UInt_t mTime;
-  std::unique_ptr<TTree> mTrend;
-  std::map<std::string, TObject*> mPlots;
-  std::unordered_map<std::string, std::unique_ptr<ReductorTPC>> mReductors;
+  TrendingTaskConfigTPC mConfig;  ///< JSON configuration of source and plots.
+  MetaData mMetaData; ///<
+  UInt_t mTime; ///<
+  std::unique_ptr<TTree> mTrend;  ///< Trending values at a given time.
+  std::map<std::string, TObject*> mPlots; ///<
+  std::unordered_map<std::string, std::unique_ptr<ReductorTPC>> mReductors; ///< Reductors for all the sources in the post-processing json.
+  int mAxisSize;  ///< Dimension of the outer vector of axisDivision.
+  int mInnerAxisSize;  ///< Dimension of the inner vector of axisDivision.
 };
 
 } // namespace o2::quality_control::postprocessing

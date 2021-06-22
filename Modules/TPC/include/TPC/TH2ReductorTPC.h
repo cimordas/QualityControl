@@ -10,8 +10,11 @@
 
 ///
 /// \file   TH2Reductor.h
-/// \author Piotr Konopka
+/// \author Marcel Lesch
+/// \author Cindy Mordasini
+/// \author Based on the work from Piotr Konopka
 ///
+
 #ifndef QUALITYCONTROL_TH2REDUCTORTPC_H
 #define QUALITYCONTROL_TH2REDUCTORTPC_H
 
@@ -28,16 +31,20 @@ namespace o2::quality_control_modules::tpc
 class TH2ReductorTPC : public quality_control::postprocessing::ReductorTPC
 {
  public:
+  /// \brief Constructor.
   TH2ReductorTPC() = default;
+  /// \brief Destructor.
   ~TH2ReductorTPC() = default;
 
+  /// \brief Definitions of the methods common to all reductors.
   void* getBranchAddress() override;
   const char* getBranchLeafList() override;
-  void update(TObject* obj,std::vector<std::vector<float>> &axis, bool isCanvas) override;
+  void update(TObject* obj, std::vector<std::vector<float>> &axis, bool isCanvas) override;
 
  private:
- static constexpr int NMAXSLICES = 30;
-  struct {
+  static constexpr int NMAXSLICES = 72;   ///< Maximum number of slices, or histograms for an input canvas. LOKI: Changed from 30.
+
+  struct {  ///< All quantities of TH2 for each x-slice/histogram.
     Double_t sumw[NMAXSLICES];
     Double_t sumw2[NMAXSLICES];
     Double_t sumwx[NMAXSLICES];
@@ -45,7 +52,7 @@ class TH2ReductorTPC : public quality_control::postprocessing::ReductorTPC
     Double_t sumwy[NMAXSLICES];
     Double_t sumwy2[NMAXSLICES];
     Double_t sumwxy[NMAXSLICES];
-    Double_t entries[NMAXSLICES]; // is sumw == entries always? maybe not for values which land into the edge bins?
+    Double_t entries[NMAXSLICES];   // Is sumw == entries always? maybe not for values which land into the edge bins?
   } mStats;
 };
 

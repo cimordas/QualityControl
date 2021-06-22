@@ -10,7 +10,9 @@
 
 ///
 /// \file   ReductorTPC.h
-/// \author Based on the work of Piotr Konopka
+/// \author Marcel Lesch
+/// \author Cindy Mordasini
+/// \author Based on the work from Piotr Konopka
 ///
 #ifndef QUALITYCONTROL_REDUCTORTPC_H
 #define QUALITYCONTROL_REDUCTORTPC_H

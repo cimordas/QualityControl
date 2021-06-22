@@ -10,7 +10,9 @@
 
 ///
 /// \file   TrendingTaskConfigTPC.h
-/// \author Based on the work of Piotr Konopka
+/// \author Marcel Lesch
+/// \author Cindy Mordasini
+/// \author Based on the work from Piotr Konopka
 ///
 
 #ifndef QUALITYCONTROL_TRENDINGTASKCONFIGTPC_H
@@ -23,11 +25,14 @@
 namespace o2::quality_control::postprocessing
 {
 
-//todo pretty print
-/// \brief  TrendingTask configuration structure
+/// \brief  TrendingTask configuration structure.
+///
+/// Configuration structure for the trending objects: the data sources to trend and the plots to produce and publish.
 struct TrendingTaskConfigTPC : PostProcessingConfig {
+  /// \brief Constructors.
   TrendingTaskConfigTPC() = default;
   TrendingTaskConfigTPC(std::string name, const boost::property_tree::ptree& config);
+  /// \brief Destructor.
   ~TrendingTaskConfigTPC() = default;
 
   struct Plot {
